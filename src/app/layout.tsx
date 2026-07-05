@@ -18,6 +18,11 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: "Mission in Namibia",
   description: "A minimal blog about my mission in Namibia",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({
