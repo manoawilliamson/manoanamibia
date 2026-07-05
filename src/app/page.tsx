@@ -48,9 +48,28 @@ Thank you for walking alongside me; whether you're reading from Tana City Church
                   {post.title}
                 </Link>
               </h2>
-              <p className="text-black/70 dark:text-white/70 leading-relaxed">
+              <p className="text-black/70 dark:text-white/70 leading-relaxed mb-4">
                 {post.excerpt}
               </p>
+              <Link
+                href={`/post/${post.id}`}
+                className="inline-flex items-center text-sm font-medium text-black dark:text-white hover:underline transition-colors"
+              >
+                Continue reading
+                <svg
+                  className="ml-2 w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Link>
             </div>
           ))}
         </div>
