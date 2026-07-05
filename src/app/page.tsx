@@ -24,9 +24,24 @@ export default function Home() {
       </header>
       <div className="h-[96px]" />
 
-      <main className="max-w-4xl mx-auto px-6 py-16">
-        <div className="mb-16">
-          
+      <main className="max-w-4xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div className="aspect-[16/9] overflow-hidden rounded-xl shadow-md border border-black/10 dark:border-white/10">
+            <img
+              src="/images/rehobot.jpeg"
+              alt="Rehoboth Namibia landscape"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div className="aspect-[16/9] overflow-hidden rounded-xl shadow-md border border-black/10 dark:border-white/10">
+            <img
+              src="/images/mission.jpeg"
+              alt="Mission group meeting"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+        </div>
+        <div className="max-w-4xl mx-auto mb-12">
           <p className="text-base text-black/70 dark:text-white/70 leading-relaxed">
             This blog will be my way of sharing my journey; the small victories, the challenges, the people I meet, and the ways God shows up in the ordinary moments of daily life here in Namibia. Consider this the first page of a story still being written.
 
