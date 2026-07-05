@@ -30,6 +30,9 @@ export default function Home() {
             <img
               src="/images/rehobot.jpeg"
               alt="Rehoboth Namibia landscape"
+              width="1200"
+              height="675"
+              loading="lazy"
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
@@ -37,6 +40,9 @@ export default function Home() {
             <img
               src="/images/mission.jpeg"
               alt="Mission group meeting"
+              width="1200"
+              height="675"
+              loading="lazy"
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
