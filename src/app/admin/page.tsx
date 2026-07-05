@@ -176,7 +176,7 @@ export default function AdminPage() {
           <div className="backdrop-blur-2xl bg-white/30 dark:bg-black/30 border border-white/20 dark:border-white/10 rounded-3xl shadow-2xl">
             <div className="px-6 sm:px-8 py-4 flex justify-between items-center">
               <Link href="/" className="text-lg sm:text-xl font-heading font-medium text-black dark:text-white">
-                Mission in Namibia
+                MISSION - NAMIBIA
               </Link>
               <nav className="flex items-center gap-4 sm:gap-12">
                 <Link href="/" className="text-xs sm:text-sm text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white transition-colors">
