@@ -1,8 +1,38 @@
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
-import posts from "@/data/posts.json"
 
-export default function Home() {
+interface Post {
+  id: string
+  title: string
+  date: string
+  excerpt: string
+  content: string
+  images: string[]
+}
+
+interface PostsData {
+  posts: Post[]
+}
+
+// Force dynamic rendering
+export const dynamic = "force-dynamic"
+
+async function getPosts(): Promise<PostsData> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/posts`, {
+      cache: 'no-store'
+    })
+    if (!res.ok) throw new Error('Failed to fetch')
+    return res.json()
+  } catch (error) {
+    // Fallback to static data if API fails
+    const posts = require('@/data/posts.json')
+    return posts
+  }
+}
+
+export default async function Home() {
+  const data = await getPosts()
   return (
     <div className="min-h-screen bg-background dark:bg-black">
       <header className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8">
@@ -59,7 +89,7 @@ Thank you for walking alongside me; whether you're reading from Tana City Church
         </div>
 
         <div className="space-y-12">
-          {posts.posts.map((post) => (
+          {data.posts.map((post: Post) => (
             <div key={post.id} className="border-b border-black/10 dark:border-white/10 pb-12">
               <div className="text-sm text-black/50 dark:text-white/50 mb-2">
                 {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

@@ -32,6 +32,8 @@ export default function AdminPage() {
     images: [] as string[]
   })
   const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
   useEffect(() => {
     const auth = localStorage.getItem('adminAuth')
@@ -69,6 +71,8 @@ export default function AdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+    setSuccess(null)
     
     try {
       const url = editingPost ? `/api/posts/${editingPost.id}` : '/api/posts'
@@ -83,9 +87,15 @@ export default function AdminPage() {
       if (response.ok) {
         await fetchPosts()
         resetForm()
+        setSuccess(editingPost ? 'Post updated successfully!' : 'Post created successfully!')
+        setTimeout(() => setSuccess(null), 3000)
+      } else {
+        const errorData = await response.json()
+        setError(errorData.error || 'Failed to save post')
       }
     } catch (error) {
       console.error('Failed to save post:', error)
+      setError('Failed to save post. Please try again.')
     }
   }
 
@@ -231,6 +241,18 @@ export default function AdminPage() {
                 Logout
               </Button>
             </div>
+
+            {/* Success/Error Messages */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg">
+                <p className="text-red-700 dark:text-red-300">{error}</p>
+              </div>
+            )}
+            {success && (
+              <div className="mb-6 p-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-lg">
+                <p className="text-green-700 dark:text-green-300">{success}</p>
+              </div>
+            )}
 
         <div className="mb-12">
           <div className="flex justify-between items-center mb-6">
