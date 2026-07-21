@@ -19,15 +19,15 @@ export const dynamic = "force-dynamic"
 
 async function getPosts(): Promise<PostsData> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/posts`, {
+    const res = await fetch('/api/posts', {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Failed to fetch')
     return res.json()
   } catch (error) {
-    // Fallback to static data if API fails
-    const posts = require('@/data/posts.json')
-    return posts
+    console.error('Failed to fetch posts from API:', error)
+    // Return empty posts array instead of fallback to static data
+    return { posts: [] }
   }
 }
 
