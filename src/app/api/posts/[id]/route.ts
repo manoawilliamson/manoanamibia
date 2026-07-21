@@ -25,7 +25,14 @@ export async function PUT(
     
     await updateTimestamp(id)
     
-    return NextResponse.json(result.rows[0])
+    return NextResponse.json(
+      result.rows[0],
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    )
   } catch (error) {
     console.error('Failed to update post:', error)
     return NextResponse.json({ error: 'Failed to update post' }, { status: 500 })
@@ -49,7 +56,14 @@ export async function DELETE(
       return NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
     
-    return NextResponse.json({ success: true })
+    return NextResponse.json(
+      { success: true },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    )
   } catch (error) {
     console.error('Failed to delete post:', error)
     return NextResponse.json({ error: 'Failed to delete post' }, { status: 500 })
