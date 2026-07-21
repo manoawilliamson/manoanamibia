@@ -1,22 +1,20 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import PostClient from "./PostClient"
+import { query } from "@/lib/db"
+import { initDatabase } from "@/lib/init-db"
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic"
 
 async function getPost(id: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/posts`, {
-      cache: 'no-store'
-    })
-    if (!res.ok) throw new Error('Failed to fetch')
-    const data = await res.json()
-    return data.posts.find((p: any) => p.id === id)
+    await initDatabase()
+    const result = await query('SELECT * FROM posts WHERE id = $1', [id])
+    return result.rows[0]
   } catch (error) {
-    // Fallback to static data if API fails
-    const posts = require('@/data/posts.json')
-    return posts.posts.find((p: any) => p.id === id)
+    console.error('Failed to fetch post from database:', error)
+    return null
   }
 }
 
