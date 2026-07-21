@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { query } from "@/lib/db"
+import { initDatabase } from "@/lib/init-db"
 
 interface Post {
   id: string
@@ -19,22 +21,12 @@ export const dynamic = "force-dynamic"
 
 async function getPosts(): Promise<PostsData> {
   try {
-    const res = await fetch('/api/posts', {
-      cache: 'no-store'
-    })
-    
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}))
-      console.error('API request failed:', res.status, errorData)
-      throw new Error(`Failed to fetch: ${res.status}`)
-    }
-    
-    const data = await res.json()
-    console.log('Fetched posts:', data.posts?.length || 0)
-    return data
+    await initDatabase()
+    const result = await query('SELECT * FROM posts ORDER BY date DESC')
+    console.log('Fetched posts from database:', result.rows.length)
+    return { posts: result.rows }
   } catch (error) {
-    console.error('Failed to fetch posts from API:', error)
-    // Return empty posts array instead of fallback to static data
+    console.error('Failed to fetch posts from database:', error)
     return { posts: [] }
   }
 }
