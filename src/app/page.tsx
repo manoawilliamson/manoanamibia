@@ -22,8 +22,16 @@ async function getPosts(): Promise<PostsData> {
     const res = await fetch('/api/posts', {
       cache: 'no-store'
     })
-    if (!res.ok) throw new Error('Failed to fetch')
-    return res.json()
+    
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}))
+      console.error('API request failed:', res.status, errorData)
+      throw new Error(`Failed to fetch: ${res.status}`)
+    }
+    
+    const data = await res.json()
+    console.log('Fetched posts:', data.posts?.length || 0)
+    return data
   } catch (error) {
     console.error('Failed to fetch posts from API:', error)
     // Return empty posts array instead of fallback to static data

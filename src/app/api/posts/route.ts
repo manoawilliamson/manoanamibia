@@ -4,8 +4,11 @@ import { initDatabase } from '@/lib/init-db'
 
 export async function GET() {
   try {
+    console.log('Fetching posts from database...')
     await initDatabase()
+    console.log('Database initialized')
     const result = await query('SELECT * FROM posts ORDER BY date DESC')
+    console.log('Query executed, rows:', result.rows.length)
     return NextResponse.json(
       { posts: result.rows },
       {
@@ -16,7 +19,10 @@ export async function GET() {
     )
   } catch (error) {
     console.error('Failed to fetch posts:', error)
-    return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Failed to fetch posts', details: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    )
   }
 }
 
